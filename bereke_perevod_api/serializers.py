@@ -11,7 +11,32 @@ from rest_framework.reverse import reverse
 
 from .models import UploadedP12
 
+
 class CertCreateSerializer(serializers.Serializer):
+    """
+    Serializer for creating and saving a PKCS#12 (.p12) certificate.
+
+    Validates user input, ensures passwords match and expiration is within valid range (1–365 days),
+    then generates a structured certificate as text or binary format and stores it in the database.
+
+    Fields:
+        - filename: Name of the certificate file (without extension)
+        - expiration: Validity period of the certificate in days (1–365)
+        - password: Password to encrypt the certificate (write-only)
+        - password2: Confirmation of the password (write-only)
+        - full_name: Full name of the certificate owner
+        - department: Department or organizational unit
+        - organization: Organization name
+        - city: City or locality
+        - region: Region or state
+        - country_code: Country code in ISO 3166-1 alpha-2 format
+
+    Validations:
+        - Passwords must match
+        - Expiration must be between 1 and 365 days
+
+    On success, creates a .p12 file (currently as encoded text) and saves it to the UploadedP12 model.
+    """
     filename = serializers.CharField()
     expiration = serializers.IntegerField()
     password = serializers.CharField(write_only=True)
@@ -79,6 +104,18 @@ class CertCreateSerializer(serializers.Serializer):
 
 
 class UploadedP12Serializer(serializers.ModelSerializer):
+    """
+    Serializer for representing uploaded .p12 certificates.
+
+    Adds a dynamic 'file' field that provides a download URL for the certificate.
+    This URL is constructed using the request context and the certificate's primary key.
+
+    Fields:
+        - id: Unique identifier of the certificate
+        - filename: Name of the uploaded certificate file (e.g., "user01.p12")
+        - uploaded_at: Timestamp when the certificate was uploaded
+        - file: URL to download the certificate (constructed dynamically)
+    """
     file = serializers.SerializerMethodField()
 
     class Meta:
@@ -90,18 +127,3 @@ class UploadedP12Serializer(serializers.ModelSerializer):
         if request:
             return reverse('file-download', kwargs={'pk': obj.pk}, request=request)
         return None
-
-"""
-{
-"filename": "AB_test",
-"expiration": 365,
-"password": "1234",
-"password2": "1234",
-"full_name": "nurs sabir",
-"department": "СБК 12-32",
-"organization": "Айыл Банк",
-"city": "г.Бишкек",
-"region": "Чуй",
-"country_code": "KG"
-}
-"""
