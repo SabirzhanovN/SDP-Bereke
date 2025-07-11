@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.pipenv/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+static_root/
+local_settings.py
+instance/
+.env
+.env.*
+
+# Django migrations
+*/migrations/__pycache__/
+*/migrations/*.py[cod]
+*/migrations/*.pyc
+*/migrations/*.pyo
+
+# Pytest
+.cache/
+.pytest_cache/
+
+# MyPy / coverage / etc
+.mypy_cache/
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS / Linux
+.DS_Store
+.AppleDouble
+.LSOverride
+.Trashes
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Pycharm / JetBrains
+*.iml
+*.ipr
+*.iws
+.idea/

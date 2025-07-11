@@ -1,0 +1,21 @@
+<div class="sidebar">
+  <div class="title">СДП Береке</div>
+
+  <ul class="menu">
+    <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+        onclick="location.href='{% url 'home' %}'" style="cursor: pointer;">
+      Создать
+    </li>
+    <li class="{% if request.resolver_match.url_name == 'detail' %}active{% endif %}"
+        onclick="location.href='{% url 'detail' %}'" style="cursor: pointer;">
+      Действия
+    </li>
+    <li class="{% if request.resolver_match.url_name == 'schema-redoc' %}active{% endif %}"
+        onclick="location.href='{% url 'schema-redoc' %}'" style="cursor: pointer;">
+      API SDP-Bereke
+    </li>
+  </ul>
+  <div class="user-name">
+    <strong>Иван Иванов</strong> | <a href="#">Выйти</a>
+  </div>
+</div>

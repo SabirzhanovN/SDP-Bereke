@@ -1,0 +1,186 @@
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+  }
+  /* Левый вертикальный сайдбар */
+  .sidebar {
+    background: #2c3e50;
+    color: white;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    height: 100vh;
+  }
+  .sidebar .title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    user-select: none;
+  }
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .menu li {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    user-select: none;
+    transition: background 0.3s;
+  }
+  .menu li:hover, .menu li.active {
+    background: #34495e;
+  }
+  .user-name {
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px 5px;
+    border-top: 1px solid #34495e;
+    user-select: none;
+    color: #bdc3c7;
+  }
+  /* Контент справа */
+  .content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+  h2 {
+    margin-top: 0;
+    color: #34495e;
+  }
+  /* Поиск и фильтр */
+  .search-filter {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+  .search-filter input[type="text"], 
+  .search-filter input[type="date"] {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1.8px solid #ccc;
+    border-radius: 6px;
+    flex: 1;
+    min-width: 200px;
+    transition: border-color 0.3s;
+  }
+  .search-filter input[type="text"]:focus, 
+  .search-filter input[type="date"]:focus {
+    outline: none;
+    border-color: #2980b9;
+  }
+  /* Таблица */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  thead {
+    background: #2980b9;
+    color: white;
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  tbody tr:hover {
+    background: #f1f7ff;
+  }
+  a.file-link {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a.file-link:hover {
+    text-decoration: underline;
+  }
+  button.delete-btn {
+    background: #e74c3c;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+  }
+  button.delete-btn:hover {
+    background: #c0392b;
+  }
+  /* Футер */
+  footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 220px;
+    right: 0;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+    /* ... предыдущие стили ... */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  button.download-btn {
+    background: #27ae60;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 10px;
+    transition: background 0.3s;
+  }
+  button.download-btn:hover {
+    background: #1e8449;
+  }
+    /* Добавим отступ для пагинации */
+  .pagination {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+  }
+  .pagination button {
+    padding: 6px 12px;
+    border: none;
+    background: #2980b9;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+  }
+  .pagination button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+  }
+  .pagination .page-info {
+    font-weight: 600;
+    color: #34495e;
+  }

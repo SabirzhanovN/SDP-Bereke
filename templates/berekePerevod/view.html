@@ -1,0 +1,72 @@
+{% extends 'berekePerevod/base.html' %}
+{% load static %}
+
+{% block 'title' %}
+<title>Действия</title>
+{% endblock %}
+
+{% block 'content' %}
+<div class="content">
+  {% include 'berekePerevod/blocks/_alert_success.html' %}
+
+  <h2>Посмотреть файлы</h2>
+  <div class="search-filter">
+    <form method="get" action="{% url 'detail' %}" style="display: flex; gap: 20px; flex-wrap: wrap;">
+      <input type="text" id="search-input" name="search" placeholder="Поиск по имени файла..." value="{{ search }}">
+      <input type="date" id="date-filter" name="date" value="{{ request.GET.date }}">
+      <button type="submit">Найти</button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Имя файла</th>
+          <th>Дата создания</th>
+          <th style="text-align: right;">Действия</th>
+        </tr>
+      </thead>
+      <tbody id="files-table-body">
+      {% for file in files %}
+        <tr>
+          <td><a href="{{ file.file }}" class="file-link" download>{{ file.filename }}</a></td>
+          <td>{{ file.uploaded_at }}</td>
+          <td style="text-align: right;">
+            <a href="{% url 'delete' file.id %}" class="delete-btn" onclick="return confirm('Вы точно хотите удалить {{ file.filename }}?')">Удалить</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button id="prev-page" {% if current_page == 1 %}disabled{% endif %}>Пред.</button>
+      <span class="page-info">стр {{ current_page }} из {{ total_pages }}</span>
+      <button id="next-page" {% if current_page >= total_pages %}disabled{% endif %}>След.</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  const currentPage = {{ current_page }};
+  const totalPages = {{ total_pages }};
+
+  document.getElementById("prev-page").onclick = () => {
+    if (currentPage > 1) {
+      window.location.href = `?page=${currentPage - 1}`;
+    }
+  };
+
+  document.getElementById("next-page").onclick = () => {
+    if (currentPage < totalPages) {
+      window.location.href = `?page=${currentPage + 1}`;
+    }
+  };
+
+    setTimeout(() => {
+      const msgContainer = document.querySelector('.message-container');
+      if (msgContainer) msgContainer.remove();
+    }, 3000);
+</script>
+{% endblock %}

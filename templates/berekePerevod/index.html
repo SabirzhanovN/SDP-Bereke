@@ -1,0 +1,83 @@
+{% extends 'berekePerevod/base.html' %}
+{% load static %}
+
+{% block 'title' %}
+<title>СДП Береке</title>
+{% endblock %}
+
+{% block 'content' %}
+<div class="content" id="content-area">
+  {% include 'berekePerevod/blocks/_alert_success.html' %}
+
+  <!-- Контент для вкладки Создать -->
+  <h2>Создать новую запись</h2>
+  <form id="create-form" method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    <label for="filename">Имя файла:</label>
+    <input type="text" id="filename" name="filename" required />
+
+    <label for="expiration">Имя файла:</label>
+    <input type="number" id="expiration" name="expiration" placeholder="365" required />
+
+    <label for="password">Пароль для сертификата:</label>
+    <input type="password" id="password" name="password" required />
+
+    <label for="password2">Пароль еще раз:</label>
+    <input type="password" id="password2" name="password2" required />
+
+    <label for="full_name">Имя и фамилия:</label>
+    <input type="text" id="full_name" name="full_name" placeholder="asan asanov" required />
+
+    <label for="department">Название подразделения:</label>
+    <input type="text" id="department" name="department" required />
+
+    <label for="organization">Имя организации:</label>
+    <select id="organization" name="organization" required>
+      <option value="">Выберите вариант</option>
+      <option value="Айыл Банк">Айыл Банк</option>
+      <option value="Doscredobank">Doscredobank</option>
+      <option value="FinanceCreditBank">FinanceCreditBank</option>
+      <option value="O!Bank">O!Bank</option>
+      <option value="Capital Bank">Capital Bank</option>
+      <option value="ЭкоИсламикБанк">ЭкоИсламикБанк</option>
+      <option value="SalymFinance">SalymFinance</option>
+      <option value="Aman Bank">Aman Bank</option>
+      <option value="ESB">ESB</option>
+      <option value="Kyrgyz Swiss">Kyrgyz Swiss</option>
+      <option value="Kyrgyz Kommerts">Kyrgyz Kommerts</option>
+    </select>
+
+    <label for="city">Имя города или поселка:</label>
+    <input type="text" id="city" name="city" required />
+
+    <label for="region">Имя области:</label>
+    <select id="region" name="region" required>
+      <option value="">Выберите вариант</option>
+      <option value="Чуй">Чуй</option>
+      <option value="Талас">Талас</option>
+      <option value="Иссык-Куль">Иссык-Куль</option>
+      <option value="Нарын">Нарын</option>
+      <option value="Ош">Ош</option>
+      <option value="Баткен">Баткен</option>
+      <option value="Жалал-Абад">Жалал-Абад</option>
+    </select>
+
+    <label for="country_code">Код страны:</label>
+    <select id="country_code" name="country_code" required>
+      <option value="">Выберите вариант</option>
+      <option value="KG">KG</option>
+      <option value="KZ">KZ</option>
+      <option value="UZ">UZ</option>
+    </select>
+
+    <button type="submit">Отправить</button>
+  </form>
+</div>
+
+<script>
+  setTimeout(() => {
+    const msgContainer = document.querySelector('.message-container');
+    if (msgContainer) msgContainer.remove();
+  }, 3000);
+</script>
+{% endblock %}
