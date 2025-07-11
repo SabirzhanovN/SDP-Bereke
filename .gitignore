@@ -62,4 +62,5 @@ Thumbs.db
 *.iml
 *.ipr
 *.iws
-.idea/
+
+!.env.example
