@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # apps
     'berekePerevod.apps.BerekeperevodConfig',
     'bereke_perevod_api.apps.BerekePerevodApiConfig',
+    'accounts.apps.AccountsConfig',
 
     # frameworks
     'rest_framework',

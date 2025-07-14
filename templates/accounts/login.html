@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+<title>Авторизация — СДП Береке</title>
+
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Вход в СДП Береке</h2>
+  <div class="error-message" id="error-msg">Неверный логин или пароль</div>
+  <form id="login-form" autocomplete="off" method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <label for="username">Логин</label>
+    <input type="text" id="username" name="username" required autocomplete="username" />
+
+    <label for="password">Пароль</label>
+    <input type="password" id="password" name="password" required autocomplete="current-password" />
+
+    <button type="submit">Войти</button>
+  </form>
+</div>
+
+</body>
+</html>
