@@ -31,7 +31,7 @@
       {% for file in files %}
         <tr>
           <td><a href="{{ file.file }}" class="file-link" download>{{ file.filename }}</a></td>
-          <td>{{ file.uploaded_at }}</td>
+          <td>{{ file.uploaded_at|slice:":10" }}</td>
           <td style="text-align: right;">
             <a href="{% url 'delete' file.id %}" class="delete-btn" onclick="return confirm('Вы точно хотите удалить {{ file.filename }}?')">Удалить</a>
           </td>
