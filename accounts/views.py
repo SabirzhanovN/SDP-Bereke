@@ -22,7 +22,6 @@ def login(request):
     return render(request, 'accounts/login.html')
 
 
-@login_required
 def logout(request):
     auth_logout(request)
     messages.success(request, 'Вы успешно вышли из системы.')
