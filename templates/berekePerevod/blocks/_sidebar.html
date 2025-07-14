@@ -16,6 +16,7 @@
     </li>
   </ul>
   <div class="user-name">
-    <strong>Иван Иванов</strong> | <a href="#">Выйти</a>
+    <strong>{{ user.get_full_name|default:user.username }}</strong> |
+    <a href="{% url 'logout' %}" style="color: inherit; text-decoration: none;">Выйти</a>
   </div>
 </div>

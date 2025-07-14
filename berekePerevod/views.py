@@ -4,7 +4,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def index(request):
     if request.method == 'POST':
         data = {
@@ -37,6 +40,7 @@ def index(request):
     return render(request, 'berekePerevod/index.html')
 
 
+@login_required
 def detail(request):
     page = int(request.GET.get('page', '1'))
     search_query = request.GET.get('search', '').strip()
@@ -75,6 +79,7 @@ def detail(request):
     })
 
 
+@login_required
 def delete(request, pk):
     api_url = request.build_absolute_uri(reverse('file-delete', args=[pk]))
 
