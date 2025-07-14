@@ -25,7 +25,6 @@ def index(request):
             "country_code": request.POST.get('country_code'),
         }
 
-        # Получаем абсолютный URL для file-create
         api_url = request.build_absolute_uri(reverse('file-create'))
 
         try:
@@ -49,16 +48,14 @@ def detail(request):
     search_query = request.GET.get('search', '').strip()
     date_filter = request.GET.get('date', '').strip()
 
-    # Собираем API URL
-    relative_url = reverse('files')  # путь к DRF API view
+    relative_url = reverse('files')
     api_url = request.build_absolute_uri(relative_url)
 
-    # Собираем параметры запроса к API
     params = {'page': page}
     if search_query:
         params['search'] = search_query
     if date_filter:
-        params['date'] = date_filter  # предполагается, что API фильтрует по этому полю
+        params['date'] = date_filter
 
     try:
         session_id = request.COOKIES.get('sessionid')
