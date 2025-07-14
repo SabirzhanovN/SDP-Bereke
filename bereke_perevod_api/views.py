@@ -6,7 +6,6 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
 from django.http import Http404, FileResponse
-from django.utils.dateparse import parse_date
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -170,9 +169,6 @@ class CertListView(APIView):
         queryset = UploadedP12.objects.all()
 
         if search:
-            import re
-            from django.db.models import Q
-
             normalized_search = re.sub(r'[-_.]', ' ', search).lower()
             queryset = queryset.filter(
                 Q(filename__icontains=search) |
