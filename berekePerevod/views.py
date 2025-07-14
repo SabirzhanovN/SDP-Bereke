@@ -6,6 +6,8 @@ from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
 
+from bereke_perevod_api.models import UploadedP12
+
 
 @login_required
 def index(request):
@@ -27,7 +29,8 @@ def index(request):
         api_url = request.build_absolute_uri(reverse('file-create'))
 
         try:
-            response = requests.post(api_url, json=data)
+            session_id = request.COOKIES.get('sessionid')
+            response = requests.post(api_url, json=data, cookies={'sessionid': session_id})
             if response.status_code == 201:
                 messages.success(request, "Сертификат успешно создан!")
                 return redirect('home')
@@ -58,7 +61,8 @@ def detail(request):
         params['date'] = date_filter  # предполагается, что API фильтрует по этому полю
 
     try:
-        response = requests.get(api_url, params=params)
+        session_id = request.COOKIES.get('sessionid')
+        response = requests.get(api_url, params=params, cookies={'sessionid': session_id})
         if response.status_code == 200:
             data = response.json()
             files = data.get('results', [])
@@ -81,18 +85,10 @@ def detail(request):
 
 @login_required
 def delete(request, pk):
-    api_url = request.build_absolute_uri(reverse('file-delete', args=[pk]))
-
     try:
-        response = requests.delete(api_url)
-
-        if response.status_code == 204:
-            messages.success(request, 'Файл успешно удалён.')
-        else:
-            messages.error(request, f'Ошибка удаления: {response.status_code}')
-    except Exception as e:
-        messages.error(request, f'Ошибка при попытке удаления: {str(e)}')
-
-    return redirect('detail')  # возвращаемся на список файлов
-
-
+        file_obj = UploadedP12.objects.get(pk=pk)
+        file_obj.delete()
+        messages.success(request, 'Файл успешно удалён.')
+    except UploadedP12.DoesNotExist:
+        messages.error(request, 'Файл не найден.')
+    return redirect('detail')

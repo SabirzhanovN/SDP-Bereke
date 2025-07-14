@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from .auth import CsrfExemptSessionAuthentication
 from .models import UploadedP12
 from .serializers import CertCreateSerializer, UploadedP12Serializer
 
@@ -20,6 +21,7 @@ class CertCreateView(APIView):
     and saves it in the database as binary content.
     Returns a success message if creation is successful, otherwise returns validation errors.
     """
+    authentication_classes = [CsrfExemptSessionAuthentication]
     @swagger_auto_schema(
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
@@ -59,6 +61,7 @@ class CertCreateView(APIView):
         operation_summary="Создание сертификата",
         operation_description="Создаёт .p12 сертификат и сохраняет в базу данных в виде бинарного контента."
     )
+
     def post(self, request):
         serializer = CertCreateSerializer(data=request.data)
         if serializer.is_valid():
