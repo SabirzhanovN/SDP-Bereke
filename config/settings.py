@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*', 'railway.app', '.railway.app', 'sdp-bereke-production.up.railway.app']
+ALLOWED_HOSTS = ['*', 'railway.app', '.railway.app', 'sdp-bereke-production.up.railway.app', 'https://*.railway.app']
 
 # Application definition
 
@@ -152,3 +152,5 @@ REST_FRAMEWORK = {
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
