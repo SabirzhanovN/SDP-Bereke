@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*', 'railway.app', '.railway.app']
+ALLOWED_HOSTS = ['*', 'railway.app', '.railway.app', 'sdp-bereke-production.up.railway.app']
 
 # Application definition
 
@@ -150,3 +150,5 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
 }
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
