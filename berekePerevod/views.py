@@ -1,14 +1,13 @@
-import requests
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
 from bereke_perevod_api.models import UploadedP12
+from bereke_perevod_api.serializers import CertCreateSerializer
 
 
 @login_required
@@ -27,19 +26,17 @@ def index(request):
             "country_code": request.POST.get('country_code'),
         }
 
-        api_url = request.build_absolute_uri(reverse('file-create'))
+        serializer = CertCreateSerializer(data=data)
 
-        try:
-            session_id = request.COOKIES.get('sessionid')
-            response = requests.post(api_url, json=data, cookies={'sessionid': session_id})
-            if response.status_code == 201:
-                messages.success(request, "Сертификат успешно создан!")
-                return redirect('home')
-            else:
-                messages.error(request, f"Ошибка: {response.json()}")
-        except requests.RequestException:
-            messages.error(request, "Ошибка соединения с API")
-
+        if serializer.is_valid():
+            serializer.save()
+            messages.success(request, "Сертификат успешно создан!")
+            return redirect('home')
+        else:
+            # Вывод ошибок сериализатора
+            for field, errors in serializer.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
 
     return render(request, 'berekePerevod/index.html')
 
