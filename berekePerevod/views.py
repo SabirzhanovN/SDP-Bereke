@@ -1,10 +1,12 @@
 import requests
-from django.conf import settings
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
+from django.utils.dateparse import parse_date
 
 from bereke_perevod_api.models import UploadedP12
 
@@ -48,33 +50,34 @@ def detail(request):
     search_query = request.GET.get('search', '').strip()
     date_filter = request.GET.get('date', '').strip()
 
-    relative_url = reverse('files')
-    api_url = request.build_absolute_uri(relative_url)
+    queryset = UploadedP12.objects.all()
 
-    params = {'page': page}
+    # Поиск по имени файла (с учётом символов - _ . и пробелов)
     if search_query:
-        params['search'] = search_query
-    if date_filter:
-        params['date'] = date_filter
+        import re
+        normalized_search = re.sub(r'[-_.]', ' ', search_query).lower()
+        queryset = queryset.filter(
+            Q(filename__icontains=search_query) |
+            Q(filename__icontains=normalized_search)
+        )
 
-    try:
-        session_id = request.COOKIES.get('sessionid')
-        response = requests.get(api_url, params=params, cookies={'sessionid': session_id})
-        if response.status_code == 200:
-            data = response.json()
-            files = data.get('results', [])
-            count = int(data.get('count', 0))
-            page_size = settings.REST_FRAMEWORK.get('PAGE_SIZE', 5)
-            total_pages = (count + page_size - 1) // page_size
-        else:
-            files, page, total_pages = [], 1, 1
-    except Exception as e:
-        files, page, total_pages = [], 1, 1
+    # Фильтрация по дате загрузки
+    if date_filter:
+        parsed_date = parse_date(date_filter)
+        if parsed_date:
+            queryset = queryset.filter(uploaded_at__date=parsed_date)
+
+    queryset = queryset.order_by('-uploaded_at')
+
+    # Пагинация
+    page_size = 5
+    paginator = Paginator(queryset, page_size)
+    page_obj = paginator.get_page(page)
 
     return render(request, 'berekePerevod/view.html', {
-        'files': files,
-        'current_page': page,
-        'total_pages': total_pages,
+        'files': page_obj.object_list,
+        'current_page': page_obj.number,
+        'total_pages': paginator.num_pages,
         'search': search_query,
         'date': date_filter,
     })
