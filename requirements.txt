@@ -8,6 +8,7 @@ django-rest-framework==0.1.0
 djangorestframework==3.16.0
 dotenv==0.9.9
 drf-yasg==1.21.10
+gunicorn==23.0.0
 idna==3.10
 inflection==0.5.1
 packaging==25.0
